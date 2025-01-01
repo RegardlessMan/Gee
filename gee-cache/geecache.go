@@ -1,7 +1,7 @@
 /**
  * @Author QG
  * @Date  2024/12/29 21:12
- * @description
+ * @description The core of external interaction
 **/
 
 package gee_cache
