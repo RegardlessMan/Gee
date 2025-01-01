@@ -7,6 +7,7 @@ package main
 
 import (
 	gee_cache "Gee/gee-cache"
+	"flag"
 	"fmt"
 	"log"
 	"net/http"
@@ -56,13 +57,13 @@ func startAPIServer(apiAddr string, gee *gee_cache.Group) {
 }
 
 func main() {
-	//var port int = 9999
-	//var api bool = true
-	//flag.IntVar(&port, "port", 9999, "Geecache server port")
-	//flag.BoolVar(&api, "api", false, "Start a api server?")
-	//flag.Parse()
+	var port int = 9999
+	var api bool = true
+	flag.IntVar(&port, "port", 9999, "Geecache server port")
+	flag.BoolVar(&api, "api", false, "Start a api server?")
+	flag.Parse()
 
-	//apiAddr := "http://localhost:9999"
+	apiAddr := "http://localhost:9999"
 	addrMap := map[int]string{
 		8001: "http://localhost:8001",
 		8002: "http://localhost:8002",
@@ -75,8 +76,9 @@ func main() {
 	}
 
 	gee := createGroup()
-	//}
-	//if api {
-	//startAPIServer(apiAddr, gee)
+
+	if api {
+		startAPIServer(apiAddr, gee)
+	}
 	startCacheServer(addrMap[8001], []string(addrs), gee)
 }
