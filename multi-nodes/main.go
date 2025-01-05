@@ -60,7 +60,7 @@ func main() {
 	var port int = 9999
 	var api bool = true
 	flag.IntVar(&port, "port", 8001, "Geecache server port")
-	flag.BoolVar(&api, "api", false, "Start a api server?")
+	flag.BoolVar(&api, "api", true, "Start a api server?")
 	flag.Parse()
 
 	apiAddr := "http://localhost:9999"

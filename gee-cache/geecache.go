@@ -7,6 +7,7 @@
 package gee_cache
 
 import (
+	pb "Gee/gee-cache/geecachepb"
 	"Gee/gee-cache/singleflight"
 	"log"
 	"sync"
@@ -114,9 +115,15 @@ func (g *Group) populateCache(key string, value ByteView) {
 }
 
 func (g *Group) getFromPeer(peer PeerGetter, key string) (ByteView, error) {
-	bytes, err := peer.Get(g.name, key)
+	req := &pb.Request{
+		Group: g.name,
+		Key:   key,
+	}
+	res := &pb.Response{}
+
+	err := peer.Get(req, res)
 	if err != nil {
 		return ByteView{}, err
 	}
-	return ByteView{b: bytes}, nil
+	return ByteView{b: res.Value}, nil
 }
