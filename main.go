@@ -20,6 +20,22 @@ var db = map[string]string{
 }
 
 func main() {
+	http.HandleFunc("/first", index)
+	http.HandleFunc("/second", second)
+	log.Fatal(http.ListenAndServe(":9999", nil))
+}
+
+func second(resp http.ResponseWriter, req *http.Request) {
+	fmt.Fprintf(resp, "URL Path is %s", req.URL.Path)
+}
+
+func index(resp http.ResponseWriter, req *http.Request) {
+	for k, v := range req.Header {
+		fmt.Fprintf(resp, "Header[%v] == %v\n", k, v)
+	}
+}
+
+func TestCache() {
 	gee_cache.NewGroup("scores", 2<<10, gee_cache.GetterFunc(func(key string) ([]byte, error) {
 		log.Println("[SlowDB] search key", key)
 		if v, ok := db[key]; ok {
