@@ -8,6 +8,7 @@ package main
 
 import (
 	gee_cache "Gee/gee-cache"
+	"Gee/gee-web/gee"
 	"fmt"
 	"log"
 	"net/http"
@@ -20,9 +21,12 @@ var db = map[string]string{
 }
 
 func main() {
-	http.HandleFunc("/first", index)
-	http.HandleFunc("/second", second)
-	log.Fatal(http.ListenAndServe(":9999", nil))
+
+	engine := gee.New()
+	engine.GET("/first", func(c *gee.Context) {
+		fmt.Fprintf(c.Writer, "URL Path is %s", c.Req.URL.Path)
+	})
+	engine.Run(":9999")
 }
 
 func second(resp http.ResponseWriter, req *http.Request) {
